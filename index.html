@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasir — Seduh Kopi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- PAGE 1: KASIR -->
+  <div class="page active" id="page-kasir">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark">SK</div>
+        <div class="brand-text">
+          <h1>Seduh Kopi</h1>
+          <p>Kasir &amp; Pemesanan</p>
+        </div>
+      </div>
+      <div class="clock">
+        <div class="order-no" id="order-no">Pesanan #001</div>
+        <div id="clock-time">--:--:--</div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="categories" id="categories"></div>
+
+      <div class="menu-col">
+        <div class="menu-head">
+          <h2 id="menu-title">Semua Menu</h2>
+          <span id="menu-count">0 item</span>
+        </div>
+        <div class="menu-grid" id="menu-grid"></div>
+      </div>
+
+      <div class="ticket-wrap">
+        <div class="ticket">
+          <div class="ticket-head">
+            <p class="tname">Tiket Pesanan</p>
+            <p class="tsub" id="ticket-time">--</p>
+          </div>
+          <div class="cart-items" id="cart-items">
+            <div class="empty-cart">Belum ada pesanan.<br>Pilih menu di sebelah kiri.</div>
+          </div>
+          <div class="ticket-totals">
+            <div class="trow"><span>Subtotal</span><span id="t-subtotal">Rp 0</span></div>
+            <div class="trow"><span>PPN (10%)</span><span id="t-tax">Rp 0</span></div>
+            <div class="trow grand"><span>Total</span><span id="t-grand">Rp 0</span></div>
+          </div>
+          <div class="ticket-actions">
+            <button class="pay-btn" id="pay-trigger" disabled>Bayar</button>
+            <button class="clear-link" id="clear-cart">Kosongkan pesanan</button>
+          </div>
+        </div>
+        <div class="perf"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: PEMBAYARAN -->
+  <div class="page" id="page-payment">
+    <div class="pay-page-wrap">
+      <button class="back-link" id="back-to-kasir">&larr; Kembali ke menu</button>
+      <div class="pay-card">
+        <h2>Pembayaran</h2>
+        <p class="pay-sub" id="pay-order-no">Pesanan #001</p>
+        <p class="pay-total" id="pay-total">Rp 0</p>
+
+        <div class="method-grid" id="method-grid">
+          <button class="method-btn active" data-method="tunai">Tunai</button>
+          <button class="method-btn" data-method="qris">QRIS</button>
+          <button class="method-btn" data-method="kartu">Kartu</button>
+        </div>
+
+        <div id="cash-section">
+          <div class="quick-cash" id="quick-cash"></div>
+          <div class="cash-row">
+            <label for="cash-input">Uang diterima</label>
+            <input type="text" inputmode="numeric" id="cash-input" placeholder="Rp 0">
+          </div>
+          <div class="change-row">
+            <span>Kembalian</span>
+            <span id="change-amount">Rp 0</span>
+          </div>
+        </div>
+
+        <button class="confirm-btn" id="confirm-pay" disabled>Konfirmasi pembayaran</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: STRUK -->
+  <div class="page" id="page-receipt">
+    <div class="receipt-page-wrap">
+      <div class="receipt-success">&#10003;</div>
+      <h2 class="receipt-title">Pembayaran berhasil</h2>
+
+      <div class="struk">
+        <div class="perf"></div>
+        <div class="struk-inner">
+          <p class="struk-shop">Seduh Kopi</p>
+          <p class="struk-addr">Jl. Roastery No. 12, Banjarmasin</p>
+
+          <div class="struk-meta">
+            <div><span>No. Pesanan</span><span id="r-order-no">#001</span></div>
+            <div><span>Tanggal</span><span id="r-date">--</span></div>
+            <div><span>Waktu</span><span id="r-time">--</span></div>
+          </div>
+
+          <div class="struk-items" id="r-items"></div>
+
+          <div class="struk-totals">
+            <div class="srow"><span>Subtotal</span><span id="r-subtotal">Rp 0</span></div>
+            <div class="srow"><span>PPN (10%)</span><span id="r-tax">Rp 0</span></div>
+            <div class="srow grand"><span>Total</span><span id="r-grand">Rp 0</span></div>
+          </div>
+
+          <div class="struk-pay">
+            <div class="srow"><span>Metode</span><span id="r-method">Tunai</span></div>
+            <div class="srow" id="r-cash-row"><span>Tunai diterima</span><span id="r-cash">Rp 0</span></div>
+            <div class="srow change" id="r-change-row"><span>Kembalian</span><span id="r-change">Rp 0</span></div>
+          </div>
+
+          <p class="struk-footer">Terima kasih sudah menyeduh bersama kami.</p>
+        </div>
+        <div class="perf"></div>
+      </div>
+
+      <div class="receipt-actions">
+        <button id="print-receipt">Cetak struk</button>
+        <button class="primary" id="new-order-btn">Pesanan baru</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const CATEGORIES = [
+  { id: 'semua', label: 'Semua Menu' },
+  { id: 'kopi-susu', label: 'Kopi Susu' },
+  { id: 'espresso', label: 'Berbasis Espresso' },
+  { id: 'manual', label: 'Manual Brew' },
+  { id: 'non-kopi', label: 'Non-Kopi' },
+  { id: 'camilan', label: 'Camilan' },
+];
+
+const MENU = [
+  { id: 1, cat: 'kopi-susu', name: 'Kopi Susu Gula Aren', note: 'Espresso, susu, gula aren', price: 18000, icon: 'C' },
+  { id: 2, cat: 'kopi-susu', name: 'Kopi Susu Original', note: 'Espresso, susu segar', price: 18000, icon: 'C' },
+  { id: 3, cat: 'kopi-susu', name: 'Kopi Susu Hazelnut', note: 'Sirup hazelnut', price: 20000, icon: 'C' },
+  { id: 4, cat: 'kopi-susu', name: 'Kopi Susu Pandan', note: 'Sirup pandan, susu', price: 20000, icon: 'C' },
+  { id: 5, cat: 'espresso', name: 'Espresso', note: 'Single shot, 30ml', price: 12000, icon: 'E' },
+  { id: 6, cat: 'espresso', name: 'Americano', note: 'Espresso, air panas', price: 15000, icon: 'E' },
+  { id: 7, cat: 'espresso', name: 'Cappuccino', note: 'Espresso, foam tebal', price: 20000, icon: 'E' },
+  { id: 8, cat: 'espresso', name: 'Cafe Latte', note: 'Espresso, susu steam', price: 20000, icon: 'E' },
+  { id: 9, cat: 'espresso', name: 'Mocha', note: 'Espresso, coklat, susu', price: 22000, icon: 'E' },
+  { id: 10, cat: 'espresso', name: 'Macchiato', note: 'Espresso, sedikit foam', price: 18000, icon: 'E' },
+  { id: 11, cat: 'manual', name: 'V60', note: 'Pour over, single origin', price: 25000, icon: 'V' },
+  { id: 12, cat: 'manual', name: 'Vietnam Drip', note: 'Drip, susu kental manis', price: 20000, icon: 'V' },
+  { id: 13, cat: 'manual', name: 'Kopi Tubruk', note: 'Kopi seduh tradisional', price: 12000, icon: 'V' },
+  { id: 14, cat: 'non-kopi', name: 'Matcha Latte', note: 'Matcha Jepang, susu', price: 22000, icon: 'N' },
+  { id: 15, cat: 'non-kopi', name: 'Coklat Latte', note: 'Coklat premium, susu', price: 20000, icon: 'N' },
+  { id: 16, cat: 'non-kopi', name: 'Teh Tarik', note: 'Teh, susu, ditarik', price: 15000, icon: 'N' },
+  { id: 17, cat: 'camilan', name: 'Croissant', note: 'Mentega, dipanggang', price: 15000, icon: 'S' },
+  { id: 18, cat: 'camilan', name: 'Pisang Goreng', note: 'Pisang goreng crispy', price: 12000, icon: 'S' },
+  { id: 19, cat: 'camilan', name: 'Roti Bakar', note: 'Roti bakar coklat keju', price: 15000, icon: 'S' },
+  { id: 20, cat: 'camilan', name: 'Cookies', note: 'Choco chip, 3 pcs', price: 10000, icon: 'S' },
+];
+
+let activeCategory = 'semua';
+let cart = {};
+let orderNumber = 1;
+let selectedMethod = 'tunai';
+let lastTransaction = null;
+
+function rupiah(n){
+  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function renderCategories(){
+  const wrap = document.getElementById('categories');
+  wrap.innerHTML = '<div class="cat-label">Kategori</div>' + CATEGORIES.map(c => {
+    const count = c.id === 'semua' ? MENU.length : MENU.filter(m => m.cat === c.id).length;
+    return `<button class="cat-btn ${activeCategory === c.id ? 'active' : ''}" data-cat="${c.id}">${c.label}<span class="cat-count">${count}</span></button>`;
+  }).join('');
+  wrap.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.dataset.cat;
+      renderCategories();
+      renderMenu();
+    });
+  });
+}
+
+function renderMenu(){
+  const items = activeCategory === 'semua' ? MENU : MENU.filter(m => m.cat === activeCategory);
+  const catLabel = CATEGORIES.find(c => c.id === activeCategory).label;
+  document.getElementById('menu-title').textContent = catLabel;
+  document.getElementById('menu-count').textContent = items.length + ' item';
+
+  const grid = document.getElementById('menu-grid');
+  grid.innerHTML = items.map(item => `
+    <div class="item-card" data-id="${item.id}">
+      <div class="item-icon">${item.icon}</div>
+      <div>
+        <p class="item-name">${item.name}</p>
+        <p class="item-note">${item.note}</p>
+      </div>
+      <div class="item-foot">
+        <span class="item-price">${rupiah(item.price)}</span>
+        <span class="add-glyph">+</span>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.item-card').forEach(card => {
+    card.addEventListener('click', () => addToCart(parseInt(card.dataset.id)));
+  });
+}
+
+function addToCart(id){
+  cart[id] = (cart[id] || 0) + 1;
+  renderCart();
+}
+
+function changeQty(id, delta){
+  if(!cart[id]) return;
+  cart[id] += delta;
+  if(cart[id] <= 0) delete cart[id];
+  renderCart();
+}
+
+function removeFromCart(id){
+  delete cart[id];
+  renderCart();
+}
+
+function getCartLines(){
+  return Object.keys(cart).map(id => {
+    const item = MENU.find(m => m.id === parseInt(id));
+    return { ...item, qty: cart[id] };
+  });
+}
+
+function getSubtotal(){
+  return getCartLines().reduce((sum, l) => sum + l.price * l.qty, 0);
+}
+
+function getGrandTotal(){
+  const subtotal = getSubtotal();
+  return subtotal + subtotal * 0.1;
+}
+
+function renderCart(){
+  const lines = getCartLines();
+  const cartEl = document.getElementById('cart-items');
+  const payBtn = document.getElementById('pay-trigger');
+
+  if(lines.length === 0){
+    cartEl.innerHTML = '<div class="empty-cart">Belum ada pesanan.<br>Pilih menu di sebelah kiri.</div>';
+    payBtn.disabled = true;
+  } else {
+    cartEl.innerHTML = lines.map(l => `
+      <div class="cart-line">
+        <span class="cl-name">${l.name}</span>
+        <span class="cl-price">${rupiah(l.price * l.qty)}</span>
+        <div class="cl-controls">
+          <div class="qty-group">
+            <button class="qty-btn" data-action="minus" data-id="${l.id}">&minus;</button>
+            <span class="qty-val">${l.qty}</span>
+            <button class="qty-btn" data-action="plus" data-id="${l.id}">+</button>
+          </div>
+          <button class="cl-remove" data-id="${l.id}">Hapus</button>
+        </div>
+      </div>
+    `).join('');
+    payBtn.disabled = false;
+
+    cartEl.querySelectorAll('.qty-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const delta = btn.dataset.action === 'plus' ? 1 : -1;
+        changeQty(parseInt(btn.dataset.id), delta);
+      });
+    });
+    cartEl.querySelectorAll('.cl-remove').forEach(btn => {
+      btn.addEventListener('click', () => removeFromCart(parseInt(btn.dataset.id)));
+    });
+  }
+
+  const subtotal = getSubtotal();
+  const tax = subtotal * 0.1;
+  const grand = subtotal + tax;
+  document.getElementById('t-subtotal').textContent = rupiah(subtotal);
+  document.getElementById('t-tax').textContent = rupiah(tax);
+  document.getElementById('t-grand').textContent = rupiah(grand);
+}
+
+document.getElementById('clear-cart').addEventListener('click', () => {
+  cart = {};
+  renderCart();
+});
+
+/* ---- Page navigation: Kasir -> Pembayaran ---- */
+const cashInput = document.getElementById('cash-input');
+const confirmBtn = document.getElementById('confirm-pay');
+const cashSection = document.getElementById('cash-section');
+
+document.getElementById('pay-trigger').addEventListener('click', () => {
+  if(Object.keys(cart).length === 0) return;
+  selectedMethod = 'tunai';
+  cashInput.value = '';
+  updateMethodUI();
+  document.getElementById('pay-order-no').textContent = 'Pesanan #' + String(orderNumber).padStart(3,'0');
+  document.getElementById('pay-total').textContent = rupiah(getGrandTotal());
+  buildQuickCash();
+  updatePaymentState();
+  showPage('page-payment');
+});
+
+document.getElementById('back-to-kasir').addEventListener('click', () => {
+  showPage('page-kasir');
+});
+
+document.getElementById('method-grid').addEventListener('click', (e) => {
+  const btn = e.target.closest('.method-btn');
+  if(!btn) return;
+  selectedMethod = btn.dataset.method;
+  updateMethodUI();
+  updatePaymentState();
+});
+
+function updateMethodUI(){
+  document.querySelectorAll('.method-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.method === selectedMethod);
+  });
+  cashSection.style.display = selectedMethod === 'tunai' ? 'block' : 'none';
+}
+
+function buildQuickCash(){
+  const total = getGrandTotal();
+  const rounded = Math.ceil(total / 5000) * 5000;
+  const options = [rounded, rounded + 10000, rounded + 50000].filter((v, i, a) => a.indexOf(v) === i);
+  document.getElementById('quick-cash').innerHTML = options.map(v =>
+    `<button data-val="${v}">${rupiah(v)}</button>`
+  ).join('');
+  document.querySelectorAll('#quick-cash button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      cashInput.value = btn.dataset.val;
+      updatePaymentState();
+    });
+  });
+}
+
+cashInput.addEventListener('input', () => {
+  cashInput.value = cashInput.value.replace(/[^0-9]/g, '');
+  updatePaymentState();
+});
+
+function updatePaymentState(){
+  const total = getGrandTotal();
+  if(selectedMethod === 'tunai'){
+    const received = parseInt(cashInput.value || '0', 10);
+    const change = received - total;
+    document.getElementById('change-amount').textContent = rupiah(Math.max(change, 0));
+    confirmBtn.disabled = !(received >= total);
+  } else {
+    confirmBtn.disabled = false;
+  }
+}
+
+/* ---- Page navigation: Pembayaran -> Struk ---- */
+confirmBtn.addEventListener('click', () => {
+  const lines = getCartLines();
+  const subtotal = getSubtotal();
+  const tax = subtotal * 0.1;
+  const grand = subtotal + tax;
+  const received = selectedMethod === 'tunai' ? parseInt(cashInput.value || '0', 10) : grand;
+  const change = selectedMethod === 'tunai' ? received - grand : 0;
+
+  lastTransaction = { lines, subtotal, tax, grand, method: selectedMethod, received, change, orderNumber };
+  renderReceipt(lastTransaction);
+  showPage('page-receipt');
+});
+
+function renderReceipt(tx){
+  const now = new Date();
+  document.getElementById('r-order-no').textContent = '#' + String(tx.orderNumber).padStart(3,'0');
+  document.getElementById('r-date').textContent = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+  document.getElementById('r-time').textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+  document.getElementById('r-items').innerHTML = tx.lines.map(l => `
+    <div class="struk-item">
+      <div class="struk-item-name"><span>${l.name}</span><span>${rupiah(l.price * l.qty)}</span></div>
+      <div class="struk-item-detail"><span>${l.qty} x ${rupiah(l.price)}</span><span></span></div>
+    </div>
+  `).join('');
+
+  document.getElementById('r-subtotal').textContent = rupiah(tx.subtotal);
+  document.getElementById('r-tax').textContent = rupiah(tx.tax);
+  document.getElementById('r-grand').textContent = rupiah(tx.grand);
+
+  const methodLabel = { tunai: 'Tunai', qris: 'QRIS', kartu: 'Kartu' }[tx.method];
+  document.getElementById('r-method').textContent = methodLabel;
+
+  const cashRow = document.getElementById('r-cash-row');
+  const changeRow = document.getElementById('r-change-row');
+  if(tx.method === 'tunai'){
+    cashRow.style.display = 'flex';
+    changeRow.style.display = 'flex';
+    document.getElementById('r-cash').textContent = rupiah(tx.received);
+    document.getElementById('r-change').textContent = rupiah(tx.change);
+  } else {
+    cashRow.style.display = 'none';
+    changeRow.style.display = 'none';
+  }
+}
+
+document.getElementById('print-receipt').addEventListener('click', () => {
+  window.print();
+});
+
+document.getElementById('new-order-btn').addEventListener('click', () => {
+  cart = {};
+  orderNumber += 1;
+  document.getElementById('order-no').textContent = 'Pesanan #' + String(orderNumber).padStart(3,'0');
+  renderCart();
+  showPage('page-kasir');
+});
+
+/* Clock */
+function tick(){
+  const now = new Date();
+  const time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('clock-time').textContent = time;
+  document.getElementById('ticket-time').textContent = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + time;
+}
+tick();
+setInterval(tick, 1000);
+
+renderCategories();
+renderMenu();
+renderCart();
+</script>
+</body>
+</html>
